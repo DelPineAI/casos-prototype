@@ -27,6 +27,7 @@ public class CaseCard {
     private final Optional<Integer> hourlyRateCents;
     private final Optional<Integer> overlapScore;
     private final GeoPoint displayPin;
+    private final com.casos.domain.County county;
     private final Instant postedAt;
 
     public CaseCard(Case c, Optional<Double> distance, Optional<Integer> overlap) {
@@ -42,6 +43,7 @@ public class CaseCard {
         this.hourlyRateCents = c.hourlyRateCents();
         this.overlapScore = overlap;
         this.displayPin = c.displayPin();
+        this.county = c.county();
         this.postedAt = c.postedAt();
     }
 
@@ -96,6 +98,10 @@ public class CaseCard {
 
     public GeoPoint displayPin() {
         return displayPin;
+    }
+
+    public com.casos.domain.County county() {
+        return county;
     }
 
     public Instant postedAt() {
