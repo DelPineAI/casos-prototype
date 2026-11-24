@@ -18,4 +18,14 @@ public final class Competency {
     public String label() {
         return label;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Competency other && other.code.equals(code);
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
 }

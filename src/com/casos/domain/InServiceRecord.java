@@ -16,11 +16,11 @@ public class InServiceRecord {
     }
 
     public boolean isExpired(LocalDate today) {
-        return false;
+        return expiresOn.isBefore(today);
     }
 
     public boolean expiresWithin(int days, LocalDate today) {
-        return false;
+        return !isExpired(today) && !expiresOn.isAfter(today.plusDays(days));
     }
 
     public InServiceType type() {

@@ -18,4 +18,14 @@ public final class InsurancePlan {
     public String name() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof InsurancePlan other && other.code.equals(code);
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
 }

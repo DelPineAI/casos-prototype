@@ -8,4 +8,7 @@ public interface GeoResolver {
     Optional<GeoPoint> resolve(ZipCode zip);
 
     GeoPoint resolveDevice(double latitude, double longitude);
+
+    /** County a ZIP belongs to, used to re-derive the protected county column (S14.5). */
+    Optional<County> countyOf(ZipCode zip);
 }
