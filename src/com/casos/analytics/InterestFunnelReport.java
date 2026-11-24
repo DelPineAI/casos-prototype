@@ -26,6 +26,18 @@ public class InterestFunnelReport extends Report {
 
     @Override
     public String toCsv() {
-        return "";
+        return "board_views,detail_views,interests\n" + viewed + "," + detailOpened + "," + interested + "\n";
+    }
+
+    public int viewed() {
+        return viewed;
+    }
+
+    public int detailOpened() {
+        return detailOpened;
+    }
+
+    public int interested() {
+        return interested;
     }
 }
