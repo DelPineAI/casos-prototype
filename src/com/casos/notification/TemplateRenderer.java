@@ -18,7 +18,15 @@ public class TemplateRenderer {
     }
 
     public EmailMessage magicLink(String to, String token) {
-        return null;
+        String url = baseUrl + "/auth?token=" + token;
+        return new EmailMessage(List.of(to), "Your Casos sign-in link",
+                "<p>Use this link to sign in to Casos. It works once and expires in 15 minutes.</p>"
+                        + "<p><a href=\"" + url + "\">Sign in to Casos</a></p>",
+                "Sign in to Casos (works once, expires in 15 minutes): " + url);
+    }
+
+    public String baseUrl() {
+        return baseUrl;
     }
 
     public EmailMessage expiryNudge(List<String> to, int caseNumber, Instant expiresAt,
@@ -35,7 +43,10 @@ public class TemplateRenderer {
     }
 
     public EmailMessage newCaseInCounty(String to, County c, int caseNumber) {
-        return null;
+        String county = c == County.MIAMI_DADE ? "Miami-Dade" : "Broward";
+        return new EmailMessage(List.of(to), "New case in " + county,
+                "<p>A new case was posted in " + county + ". <a href=\"" + baseUrl + "/\">View the board</a></p>",
+                "A new case was posted in " + county + ": " + baseUrl + "/");
     }
 
     public EmailMessage weeklyDigest(String to, List<CaseCard> matches) {
