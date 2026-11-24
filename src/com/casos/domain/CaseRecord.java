@@ -28,6 +28,6 @@ public record CaseRecord(CaseId caseId,
 
     /** Rebuild the entity from storage. */
     public Case toCase() {
-        return null;
+        throw new UnsupportedOperationException("A database adapter is not part of the prototype; cases are held in memory.");
     }
 }

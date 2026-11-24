@@ -1,5 +1,6 @@
 package com.casos.geo;
 
+import com.casos.domain.County;
 import com.casos.domain.GeoPoint;
 import com.casos.domain.GeoResolver;
 import com.casos.domain.ZipCode;
@@ -22,5 +23,10 @@ public class ZipResolver implements GeoResolver {
     @Override
     public GeoPoint resolveDevice(double latitude, double longitude) {
         return new GeoPoint(latitude, longitude);
+    }
+
+    @Override
+    public Optional<County> countyOf(ZipCode z) {
+        return table.countyOf(z);
     }
 }

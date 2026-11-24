@@ -64,7 +64,7 @@ public class Case {
 
     /** OPEN and not yet past its expiry instant (S1.5). */
     public boolean isVisibleAt(Instant now) {
-        return false;
+        return status == CaseStatus.OPEN && now.isBefore(expiresAt);
     }
 
     /** Transition OPEN to FILLED. */
@@ -72,6 +72,8 @@ public class Case {
         if (status != CaseStatus.OPEN) {
             throw new IllegalStateException("Only an OPEN case can be filled");
         }
+        this.status = CaseStatus.FILLED;
+        this.filledAt = Optional.of(at);
     }
 
     /** Reset the 7-day window from the given instant (S11.4). */
@@ -79,6 +81,8 @@ public class Case {
         if (status != CaseStatus.OPEN) {
             throw new IllegalStateException("Only an OPEN case can be renewed");
         }
+        this.postedAt = at;
+        this.expiresAt = at.plus(EXPIRY);
     }
 
     /** Transition OPEN to EXPIRED. */
@@ -86,6 +90,7 @@ public class Case {
         if (status != CaseStatus.OPEN) {
             throw new IllegalStateException("Only an OPEN case can expire");
         }
+        this.status = CaseStatus.EXPIRED;
     }
 
     /** Distance from a viewer to the exact pin, without revealing the pin itself. */
@@ -95,7 +100,9 @@ public class Case {
 
     /** Persistence memento; the only path that carries the ZIP and exact pin out of the entity. */
     public CaseRecord toRecord() {
-        return null;
+        return new CaseRecord(caseId, agencyId, caseNumber, coverageType, credentialRequired, zip,
+                exactPin, displayPin, county, ageBand, weeklyHours, schedule, insurancePlan,
+                competencies, hourlyRateCents, preferences, status, postedAt, expiresAt, filledAt);
     }
 
     public CaseId caseId() {
