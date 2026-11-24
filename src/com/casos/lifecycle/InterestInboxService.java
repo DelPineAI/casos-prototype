@@ -8,6 +8,7 @@ import com.casos.domain.InterestRepository;
 import com.casos.domain.InterestStatus;
 import com.casos.identity.AuthorizationPolicy;
 import com.casos.identity.Session;
+import com.casos.identity.UnauthorizedException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,26 @@ public class InterestInboxService {
     }
 
     public List<Interest> forAgency(AgencyId a, Session actor) {
-        return List.of();
+        require(a, actor);
+        return interests.forAgency(a);
     }
 
     public Map<CaseId, Integer> countsByCase(AgencyId a, Session actor) {
-        return Map.of();
+        require(a, actor);
+        return interests.countByCase(a);
     }
 
     public Interest advance(InterestId id, InterestStatus next, Session actor) {
-        return null;
+        Interest interest = interests.findById(id).orElseThrow(() -> new IllegalArgumentException("Interest not found."));
+        require(interest.agencyId(), actor);
+        interest.advance(next);
+        interests.save(interest);
+        return interest;
+    }
+
+    private void require(AgencyId a, Session actor) {
+        if (!authz.canManageCases(actor, a)) {
+            throw new UnauthorizedException("Only this agency's coordinators can see its interest inbox (S12.4).");
+        }
     }
 }

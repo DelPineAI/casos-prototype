@@ -24,7 +24,15 @@ public class ExpiryJob {
 
     /** Expires overdue OPEN cases and publishes CaseExpired. Returns the count expired. */
     public int runNightlyExpiry() {
-        return 0;
+        java.time.Instant now = clock.instant();
+        int expired = 0;
+        for (com.casos.domain.Case c : cases.findExpiringBetween(java.time.Instant.EPOCH, now)) {
+            c.expire();
+            cases.save(c);
+            bus.publish(new com.casos.domain.CaseExpired(now, c.caseId(), c.agencyId()));
+            expired++;
+        }
+        return expired;
     }
 
     /** Issues FILL and RENEW tokens for cases expiring in about 48 hours and publishes CaseExpiringSoon. */
