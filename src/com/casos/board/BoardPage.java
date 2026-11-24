@@ -14,7 +14,8 @@ public class BoardPage {
     public BoardPage(List<CaseCard> cards, FilterCriteria criteria) {
         this.cards = cards;
         this.total = cards.size();
-        this.urgentCount = 0;
+        this.urgentCount = (int) cards.stream()
+                .filter(c -> c.coverageType() == com.casos.domain.CoverageType.COVERAGE).count();
         this.criteria = criteria;
     }
 
