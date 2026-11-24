@@ -40,7 +40,8 @@ public class CaseFactory {
         // County is a protected column: always re-derived from the ZIP, never taken from the form (S14.5).
         Optional<County> county = draft.zip() == null ? Optional.empty() : geo.countyOf(draft.zip());
         Optional<GeoPoint> exact = draft.zip() == null ? Optional.empty() : geo.resolve(draft.zip());
-        if (draft.zip() != null && (county.isEmpty() || exact.isEmpty())) {
+        if (draft.zip() != null && com.casos.domain.ZipCode.isValid(draft.zip().value())
+                && (county.isEmpty() || exact.isEmpty())) {
             violations.add("ZIP " + draft.zip().value() + " is outside the Miami-Dade and Broward service area.");
         }
 
