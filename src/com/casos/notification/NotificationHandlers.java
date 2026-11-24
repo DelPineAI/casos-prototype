@@ -34,6 +34,7 @@ public class NotificationHandlers {
     }
 
     public void onMagicLink(MagicLinkRequested e) {
+        sender.send(templates.magicLink(e.email(), e.token()));
     }
 
     /** S11.5: nudge every member of the agency with one-click links. */
@@ -42,6 +43,8 @@ public class NotificationHandlers {
 
     /** S8.2: county alert to subscribed clinicians. */
     public void onCasePosted(CasePosted e) {
+        clinicians.subscribedTo(e.county()).forEach(c ->
+                sender.send(templates.newCaseInCounty(c.email(), e.county(), 0)));
     }
 
     /** S8.4. */
