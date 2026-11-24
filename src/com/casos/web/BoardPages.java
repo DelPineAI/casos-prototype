@@ -144,7 +144,8 @@ final class BoardPages {
         }
         b.append("</div><div class=\"meta\">").append(esc(c.insurancePlan().name()))
          .append(c.hourlyRateCents().map(r -> " | $" + (r / 100) + "/hr").orElse(""))
-         .append(" | Case #").append(c.caseNumber()).append("</div></a>");
+         .append("</div><div class=\"meta\"><strong>").append(esc(agencyName(c.agencyId())))
+         .append("</strong> | Case #").append(c.caseNumber()).append("</div></a>");
         return b.toString();
     }
 
@@ -170,6 +171,7 @@ final class BoardPages {
         b.append("<div class=\"two\"><section class=\"panel\">");
         b.append("<span class=\"badge").append(cov ? " cov" : "").append("\">").append(cov ? "Urgent coverage" : "Ongoing")
          .append("</span><h1>Case #").append(c.caseNumber()).append("</h1>")
+         .append("<p style=\"margin:0\"><strong>").append(esc(agencyName(c.agencyId()))).append("</strong></p>")
          .append("<p class=\"sub\">").append(Html.county(c.county())).append(" | posted ").append(Html.day(c.postedAt()))
          .append(" | open until ").append(Html.day(c.expiresAt())).append("</p>");
         b.append("<div class=\"hero\" style=\"margin-bottom:12px\"><div><b>")
@@ -230,6 +232,10 @@ final class BoardPages {
     }
 
     // ---------- helpers ----------
+
+    private String agencyName(com.casos.domain.AgencyId id) {
+        return system.agencies.findById(id).map(a -> a.name()).orElse("Agency");
+    }
 
     private FilterCriteria criteria(Request req) {
         Set<TimeBlock> blocks = EnumSet.noneOf(TimeBlock.class);

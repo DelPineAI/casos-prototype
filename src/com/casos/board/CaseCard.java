@@ -16,6 +16,7 @@ import java.util.Set;
 public class CaseCard {
 
     private final CaseId caseId;
+    private final com.casos.domain.AgencyId agencyId;
     private final int caseNumber;
     private final CoverageType coverageType;
     private final Optional<Double> distanceMiles;
@@ -32,6 +33,7 @@ public class CaseCard {
 
     public CaseCard(Case c, Optional<Double> distance, Optional<Integer> overlap) {
         this.caseId = c.caseId();
+        this.agencyId = c.agencyId();
         this.caseNumber = c.caseNumber();
         this.coverageType = c.coverageType();
         this.distanceMiles = distance;
@@ -54,6 +56,10 @@ public class CaseCard {
 
     public CaseId caseId() {
         return caseId;
+    }
+
+    public com.casos.domain.AgencyId agencyId() {
+        return agencyId;
     }
 
     public int caseNumber() {

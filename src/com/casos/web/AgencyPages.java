@@ -188,7 +188,7 @@ final class AgencyPages {
         }
         b.append("</select></div>");
 
-        b.append("<div><label for=\"rate\">Hourly rate in dollars (optional)</label><input id=\"rate\" name=\"rate\" type=\"number\" min=\"15\" max=\"150\" value=\"")
+        b.append("<div><label for=\"rate\">Rate, $/hr (optional)</label><input id=\"rate\" name=\"rate\" type=\"number\" min=\"15\" max=\"150\" value=\"")
          .append(esc(v.get("rate"))).append("\"></div></div></div>");
 
         b.append("<div class=\"panel\"><label>Schedule</label><table class=\"week\"><tr><th></th>");
